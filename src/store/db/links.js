@@ -1,4 +1,12 @@
 const  sidebarLinks={
+  "myaccount":{
+    name:"My Dashboard",
+    caption:"See everything you do in one place",
+    component:"dashboard",
+    icon:"dashboard",
+    links:  [
+      {name:"Login", url:'/auth/', icon:'logout', description:"To become a resident or ask for service, you have to join us"},
+    ] },
   "joinus":{
     name:"Join Us",
     caption:"Sign up and Sign in App",
@@ -6,8 +14,8 @@ const  sidebarLinks={
     icon:"people",
     links:  [
       {name:"Login", url:'/auth/', icon:'logout', description:"To become a resident or ask for service, you have to join us"},
-      {name:"Register an Estate", url:'/estate-register/', icon:'login'},
-      {name:"Join your Estate", url:'/auth/', icon:'door_back'},
+      {name:"Register an Estate", url:'/estate/register/', icon:'login'},
+      {name:"Join your Estate", url:'/estate/join/', icon:'door_back'},
       {name:"Be a Provider", url:'/auth/', icon:'room_preferences'},
     ] },
 

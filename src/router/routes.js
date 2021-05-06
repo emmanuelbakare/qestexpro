@@ -6,7 +6,15 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/Index.vue') },
       { path: 'auth/', component: () => import('pages/account/authPage.vue') },
-      { path: 'estate-register/', component: () => import('pages/account/estateRegister.vue') }
+      // { path: 'estate-register/', component: () => import('pages/account/estateRegister.vue') }
+    ]
+  },
+  {
+    path: '/estate',
+    component: () => import('layouts/Layout.vue'),
+    children: [
+      { path: 'register/', component: () => import('pages/estate/estateRegister.vue') },
+      { path: 'join/', component: () => import('pages/estate/join-estate.vue') }
     ]
   },
 

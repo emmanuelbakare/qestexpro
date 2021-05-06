@@ -1,5 +1,9 @@
 import axios from 'axios'
+// import { Notify } from 'quasar'
+import Notifier from './../utils/notify'
+
 const state={
+  search:''
 
 }
 const mutations={
@@ -11,6 +15,7 @@ const actions={
   register_estate({commit},payload){
       let key = localStorage.getItem('loggedIn')
       let current_user=JSON.parse(localStorage.getItem('user'))
+      console.log('CURRENT USE ID : ', current_user.pk)
       console.log('CURRENT USER : ',current_user)
       let config={
           headers:{
@@ -25,7 +30,7 @@ const actions={
         'state_region':payload.city,
         'country':payload.country,
         'comment':payload.comment,
-        'admin':[ current_user.pk ]
+        'admin':current_user.pk,
       }
 
       let url ='http://localhost:8000/api/estate/' //url for estate registration
@@ -33,10 +38,12 @@ const actions={
       if(key){
         axios.post(url,data,config)
           .then(res=>{
-            console.log('New Estate Successfully registered ', res.data)
+              console.log('New Estate Successfully registered ', res.data)
+              Notifier ('New Estate Successfully Registered','secondary')
           })
           .catch(error=>{
             console.log('THERE IS AN ERROR:', error.message)
+
           })
       } else {
         console.log('You are not logged in')
