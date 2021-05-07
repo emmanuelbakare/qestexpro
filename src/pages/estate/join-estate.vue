@@ -9,7 +9,8 @@
           </q-banner> -->
           <q-input v-model="searchText" type="text" label="Search for an estate"
           hint="Type the name of the estate you want to join. Select the estate you want to join from the displayed result"
-          round outlined clearable :loading="loading"
+          round outlined clearable 
+          :loading="loading"
           @clear="clearSearch">
 
                 <template #append>
@@ -23,11 +24,12 @@
              <pre>
               <!-- {{ estates }} -->
               <!-- {{getEntry}} -->
+              <!-- {{ filteredEstates}} -->
             </pre>
 
 
           <q-list bordered separator class="q-mt-lg ">
-            <q-item  v-for="estate in getEntry" :key="estate.id">
+            <q-item  v-for="estate in filteredEstates" :key="estate.id">
 
             <q-item-section  >
               <q-item-label class="text-h6 text-grey-8">{{estate.name}}</q-item-label>
@@ -109,32 +111,12 @@ export default {
           return result
 
     },
-     getEntry: {
-
-       get(){
-       let result=[]
-          console.log(this.searchText)
-        if(this.searchText){
-          this.estates.forEach(estate=>{
-            if(estate.name.toLowerCase().includes(this.searchText.toLowerCase())){
-              result.push(estate)
-            }
-          })
-        } else {
-          result=estateSamp
-        }
-          // this.loading=false
-          return result
-       },
-       set(value){
-
-       }
-     },
+   
     loadingStatus(){
       if(this.searchText) {
         return true
       } else {
-        return false
+             return false
       }
     }
   },
