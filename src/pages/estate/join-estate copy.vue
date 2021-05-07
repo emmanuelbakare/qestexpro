@@ -21,9 +21,9 @@
           </q-input>
 
              <pre>
-              <!-- {{ estates }} -->
-              <!-- {{getEntry}} -->
-            </pre>
+          {{ searchText }}
+          <!-- {{getEntry}} -->
+        </pre>
 
 
           <q-list bordered separator class="q-mt-lg ">
@@ -34,7 +34,7 @@
               <q-item-label caption lines="2">{{estate.address}}</q-item-label>
             </q-item-section>
             <q-item-section side top>
-              <q-btn color="secondary"   label="Join" @click="joinEstate(estate.id)" />
+              <q-btn color="secondary"   label="Join" @click="joinEstate" />
             </q-item-section>
           </q-item>
           </q-list>
@@ -71,14 +71,15 @@ export default {
     ...mapActions('estate',['setSearch','search_estate']),
 
     populateEstates(){
+       
        this.estates=estateSamp
     },
     clearSearch(){
-      this.searchText==''
+      this.searchText=='',
       this.populateEstates()
     },
-    joinEstate(id){
-      console.log('Join this Estate : ', id)
+    joinEstate(){
+      console.log('Join this Estate')
     },
 
   },
@@ -93,29 +94,15 @@ export default {
          this.setSearch(value)
       }
     },
-    filteredEstates(){
-      let result=[]
-          console.log(this.searchText)
-        if(this.searchText){ // if user types something in the search box
-        // get all estate, and return only those which contains searchText text
-          this.estates.forEach(estate=>{
-            if(estate.name.toLowerCase().includes(this.searchText.toLowerCase())){
-              result.push(estate)
-            }
-          })
-        } else {
-          result=estateSamp
-        }
-          return result
-
-    },
      getEntry: {
 
        get(){
        let result=[]
           console.log(this.searchText)
         if(this.searchText){
+          // this.loading=true
           this.estates.forEach(estate=>{
+
             if(estate.name.toLowerCase().includes(this.searchText.toLowerCase())){
               result.push(estate)
             }
@@ -139,7 +126,7 @@ export default {
     }
   },
    mounted(){
-    this.populateEstates()
+   //this.populateEstates()
   },
 
 }

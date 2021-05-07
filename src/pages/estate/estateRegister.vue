@@ -25,6 +25,7 @@
             <q-input v-model="estate.city" type="text" label="City" outlined  />
             <q-input v-model="estate.state_region" type="text" label="State or Region" outlined  />
             <q-input v-model="estate.country" type="text" label="Country" outlined  />
+            <!-- <q-select v-model="estate.country" :option-label="getCountryVal" label="Standard" filled /> -->
             <q-input v-model="estate.comment" type="textarea" label="comment" dense outlined  multiline />
             <q-space/>
               <div>
@@ -35,17 +36,22 @@
          </q-card-section>
 
        </q-card>
+       <pre>
+         {{cVals}}
+       </pre>
 
   </div>
 </template>
 <script>
 import { mapActions } from 'vuex';
+import cList from '../../store/db/countries'
 
 
 export default {
 
   data(){
     return {
+      countryList:cList,
       estate:{
         name:'',
         total_house:'',
@@ -76,6 +82,17 @@ export default {
         admin:''
       }
     }
+  },
+  computed:{
+  //  getCountryVal(){
+  //    let cVals=[]
+  //     for(var i=0;i < this.countryList.length; i++){
+
+  //       cVals.push(this.countryList[i].name)
+  //     }
+  //     return cVals
+  //  }
+    
   }
 
 }

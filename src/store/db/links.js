@@ -1,4 +1,13 @@
 const  sidebarLinks={
+  "Testing":{
+    name:"Testing Stuff",
+    caption:"All pages here are for testing",
+    component:"settings",
+    icon:"settings",
+    links:  [
+      {name:"Ajax Loading", url:'/test/ajaxloading/', icon:'event', description:"Using the Ajax Loader"},
+      // {name:"Ajax Loading", url:'/test/ajaxloading/', icon:'event', description:"Page to test and research stuff"},
+    ] },
   "myaccount":{
     name:"My Dashboard",
     caption:"See everything you do in one place",
