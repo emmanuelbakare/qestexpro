@@ -21,10 +21,12 @@
             >
             <q-input v-model="estate.name" type="text" label="Estate Name" outlined  />
             <q-input v-model="estate.total_house" type="number" label="Total Number of house" outlined  />
+            <q-select v-model="estate.type" :options="options" label="Standard" filled />
             <q-input v-model="estate.street1" type="text" label="Street" outlined  />
             <q-input v-model="estate.city" type="text" label="City" outlined  />
             <q-input v-model="estate.state_region" type="text" label="State or Region" outlined  />
-            <q-input v-model="estate.country" type="text" label="Country" outlined  />
+            <!-- <q-input v-model="estate.country" type="text" label="Country" outlined  /> -->
+            <q-select v-model="estate.country" :options="countryTwo" label="Standard" filled />
             <q-input v-model="estate.comment" type="textarea" label="comment" dense outlined  multiline />
             <q-space/>
               <div>
@@ -32,6 +34,10 @@
                 <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
               </div>
             </q-form>
+            <pre>
+              <h5>Estate Types</h5>
+              {{ getEstateType}}
+            </pre>
          </q-card-section>
 
        </q-card>
@@ -39,13 +45,15 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
+import {countryTwo } from '../../store/db/countries'
 
 
 export default {
 
   data(){
     return {
+      options:'',
       estate:{
         name:'',
         total_house:'',
@@ -54,12 +62,14 @@ export default {
         state_region:'',
         country:'',
         comment:'',
+        type:'',
         admin:'',
       }
     }
   },
   methods:{
-    ...mapActions('estate',['register_estate']),
+
+    ...mapActions('estate',['register_estate','estate_type']),
     onSubmit() {
        this.register_estate(this.estate)
         this.resetForm
@@ -73,10 +83,18 @@ export default {
         state_region:'',
         country:'',
         comment:'',
+        type:'',
         admin:''
       }
     }
-  }
+  },
+  computed:{
+    ...mapGetters('estate',['getEstateType'])
+
+  },
+  mount(){
+    this.estate_type
+  },
 
 }
 </script>

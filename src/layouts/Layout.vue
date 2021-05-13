@@ -16,7 +16,7 @@
         </q-toolbar-title>
         <div class="text-grey-4" v-if="getLoggedIn">
             {{getEmail}}
-          <q-btn class="text-red-10" icon="logout"
+          <q-btn class="text-orange-1" icon="logout"
           label="logout" no-caps unelevated @click="logout" />
         </div>
        <q-btn v-else  class="text-green-2" icon="login"
@@ -30,7 +30,7 @@
       bordered
       content-class="bg-grey-1"
     >
-     <div elevated class="text-h5 q-pa-md text-white shadow-4 bg-orange-5">
+     <div elevated class="text-h5 q-pa-md text-white shadow-4 bg-blue-3">
        Estex Pro
      </div>
       <!-- DRAWER LIST HERE -->
@@ -79,7 +79,6 @@ export default {
       if(userInfo){
         let userObj=JSON.parse(userInfo)
         email= userObj.email
-        console.log('EMAIL :',email)
       }
       return email
     }

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import auth from './auth-store'
 import estate from './estate-store'
+import settings from './settings-store'
 // import example from './module-example'
 
 Vue.use(Vuex)
@@ -21,6 +22,7 @@ export default function (/* { ssrContext } */) {
       // example
       auth,
       estate,
+      settings,
     },
 
     // enable strict mode (adds overhead!)

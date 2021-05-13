@@ -7,10 +7,9 @@
           :caption="data.caption"
           v-for="(data,key) in info"
           :key="key"
-          group="test"
-
+          group="menu-1"
+          header-class="bg-blue-1"
         >
-         <!-- <component :is="data.component"  /> -->
          <sidebarlinks :links="data.links" />
         </q-expansion-item>
       </q-list>

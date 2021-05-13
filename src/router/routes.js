@@ -7,7 +7,15 @@ const routes = [
       { path: '', component: () => import('pages/Index.vue') },
       { path: 'auth/', component: () => import('pages/account/authPage.vue') },
       { path: 'ajaxloading/', component: () => import('pages/test/ajaxloading.vue') },
-      // { path: 'estate-register/', component: () => import('pages/account/estateRegister.vue') }
+    ]
+  },
+
+  {
+    path: '/estate',
+    component: () => import('layouts/Layout.vue'),
+    children: [
+      { path: 'register/', component: () => import('pages/estate/estateRegister.vue') },
+      { path: 'join/', component: () => import('pages/estate/join-estate.vue') }
     ]
   },
   {
@@ -15,15 +23,9 @@ const routes = [
     component: () => import('layouts/Layout.vue'),
     children: [
       { path: 'ajaxloading/', component: () => import('pages/test/ajaxloading.vue') },
-      // { path: 'estate-register/', component: () => import('pages/account/estateRegister.vue') }
-    ]
-  },
-  {
-    path: '/estate',
-    component: () => import('layouts/Layout.vue'),
-    children: [
-      { path: 'register/', component: () => import('pages/estate/estateRegister.vue') },
-      { path: 'join/', component: () => import('pages/estate/join-estate.vue') }
+      { path: 'floatingAction/', component: () => import('pages/test/floatingAction.vue') },
+      { path: 'dialog/', component: () => import('pages/test/dialog.vue') },
+
     ]
   },
 

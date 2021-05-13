@@ -9,7 +9,8 @@
           </q-banner> -->
           <q-input v-model="searchText" type="text" label="Search for an estate"
           hint="Type the name of the estate you want to join. Select the estate you want to join from the displayed result"
-          round outlined clearable :loading="loading"
+          round outlined clearable
+          :loading="loading"
           @clear="clearSearch">
 
                 <template #append>
@@ -20,21 +21,17 @@
 
           </q-input>
 
-             <pre>
-          {{ searchText }}
-          <!-- {{getEntry}} -->
-        </pre>
-
+            
 
           <q-list bordered separator class="q-mt-lg ">
-            <q-item  v-for="estate in getEntry" :key="estate.id">
+            <q-item  v-for="estate in filteredEstates" :key="estate.id">
 
             <q-item-section  >
               <q-item-label class="text-h6 text-grey-8">{{estate.name}}</q-item-label>
               <q-item-label caption lines="2">{{estate.address}}</q-item-label>
             </q-item-section>
             <q-item-section side top>
-              <q-btn color="secondary"   label="Join" @click="joinEstate" />
+              <q-btn color="secondary"   label="Join" @click="joinEstate(estate.id)" />
             </q-item-section>
           </q-item>
           </q-list>
@@ -71,15 +68,14 @@ export default {
     ...mapActions('estate',['setSearch','search_estate']),
 
     populateEstates(){
-       
        this.estates=estateSamp
     },
     clearSearch(){
-      this.searchText=='',
+      this.searchText==''
       this.populateEstates()
     },
-    joinEstate(){
-      console.log('Join this Estate')
+    joinEstate(id){
+      console.log('Join this Estate : ', id)
     },
 
   },
@@ -94,15 +90,12 @@ export default {
          this.setSearch(value)
       }
     },
-     getEntry: {
-
-       get(){
-       let result=[]
+    filteredEstates(){
+      let result=[]
           console.log(this.searchText)
-        if(this.searchText){
-          // this.loading=true
+        if(this.searchText){ // if user types something in the search box
+        // get all estate, and return only those which contains searchText text
           this.estates.forEach(estate=>{
-
             if(estate.name.toLowerCase().includes(this.searchText.toLowerCase())){
               result.push(estate)
             }
@@ -110,23 +103,20 @@ export default {
         } else {
           result=estateSamp
         }
-          // this.loading=false
           return result
-       },
-       set(value){
 
-       }
-     },
+    },
+
     loadingStatus(){
       if(this.searchText) {
         return true
       } else {
-        return false
+             return false
       }
     }
   },
    mounted(){
-   //this.populateEstates()
+    this.populateEstates()
   },
 
 }

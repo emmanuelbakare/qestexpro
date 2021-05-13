@@ -6,6 +6,8 @@ const  sidebarLinks={
     icon:"settings",
     links:  [
       {name:"Ajax Loading", url:'/test/ajaxloading/', icon:'event', description:"Using the Ajax Loader"},
+      {name:"Floating Action", url:'/test/floatingAction/', icon:'settings', description:"using stick page and Float action component"},
+      {name:"Dialog", url:'/test/dialog/', icon:'dashboard', description:"Dialog Box Example"},
       // {name:"Ajax Loading", url:'/test/ajaxloading/', icon:'event', description:"Page to test and research stuff"},
     ] },
   "myaccount":{

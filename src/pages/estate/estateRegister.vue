@@ -1,7 +1,7 @@
 <template>
-  <div class="row">
-       <q-card class="my-card offset-md-3 offset-sm-2 col-md-6 col-sm-8 ">
-         <q-toolbar class="bg-purple text-white">
+  <q-page  class="row q-mt-lg" padding>
+       <q-card class="my-card offset-md-3 offset-sm-2 col-md-6 col-sm-8   ">
+         <q-toolbar class="bg-secondary text-white">
            <q-toolbar-title>
              Register A New Estate
 
@@ -17,41 +17,53 @@
             <q-form
               @submit.prevent="onSubmit"
               @reset="resetForm"
-              class="q-gutter-md"
+              class="q-gutter-md q-pa-md"
             >
-            <q-input v-model="estate.name" type="text" label="Estate Name" outlined  />
-            <q-input v-model="estate.total_house" type="number" label="Total Number of house" outlined  />
-            <q-input v-model="estate.street1" type="text" label="Street" outlined  />
-            <q-input v-model="estate.city" type="text" label="City" outlined  />
-            <q-input v-model="estate.state_region" type="text" label="State or Region" outlined  />
-            <q-input v-model="estate.country" type="text" label="Country" outlined  />
-            <!-- <q-select v-model="estate.country" :option-label="getCountryVal" label="Standard" filled /> -->
-            <q-input v-model="estate.comment" type="textarea" label="comment" dense outlined  multiline />
+            <q-input v-model="estate.name" type="text" label="Estate Name"    />
+            <q-select v-model="estate.type"
+                  :options="getEstateType" option-value="id" option-label="name"
+                   emit-value  map-options label="Type"    />
+            <q-input v-model="estate.total_house" type="number" label="Total Number of Houses"    />
+            <q-input v-model="estate.street1" type="text" label="Street"    />
+            <q-input v-model="estate.city" type="text" label="City"    />
+            <q-input v-model="estate.state_region" type="text" label="State or Region"    />
+            <!-- <q-input v-model="estate.country" type="text" label="Country" outlined  /> -->
+            <q-select v-model="estate.country"  label="Countries"
+                  :options="countryList" option-value="code" option-label="name"
+                  emit-value map-options
+               />
+
+            <q-input v-model="estate.comment" autogrow label="comment" dense      />
             <q-space/>
               <div>
                 <q-btn label="Submit" type="submit" color="primary"/>
                 <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
               </div>
             </q-form>
+
          </q-card-section>
 
        </q-card>
-       <pre>
-         {{cVals}}
-       </pre>
-
-  </div>
+         <pre>
+              <h5>Estate Types</h5>
+              {{estate}}
+            </pre>
+  </q-page>
 </template>
 <script>
-import { mapActions } from 'vuex';
-import cList from '../../store/db/countries'
+import { mapActions, mapGetters } from 'vuex';
+import {countryOne} from '../../store/db/countries'
 
 
 export default {
+  components:{
+    
+  },
 
   data(){
     return {
-      countryList:cList,
+      countryList:countryOne,
+      estateType:[],
       estate:{
         name:'',
         total_house:'',
@@ -59,17 +71,26 @@ export default {
         city:'',
         state_region:'',
         country:'',
+        type:'',
         comment:'',
         admin:'',
       }
     }
   },
   methods:{
-    ...mapActions('estate',['register_estate']),
-    onSubmit() {
-       this.register_estate(this.estate)
+    ...mapActions('estate',['register_estate','estate_type']),
+    // ...mapActions('settings',['setJoinFormDiag']),
+      onSubmit () {
+          this.register_estate(this.estate)
+            .then (()=>{
+              // after registering completed the add user(admin) as first resident
+              console.log('Done Registering')
+            })
+        
         this.resetForm
+       
     },
+ 
     resetForm(){
       this.estate={
         name:'',
@@ -78,22 +99,23 @@ export default {
         city:'',
         state_region:'',
         country:'',
+        type:'',
         comment:'',
         admin:''
       }
     }
   },
   computed:{
-  //  getCountryVal(){
-  //    let cVals=[]
-  //     for(var i=0;i < this.countryList.length; i++){
+       ...mapGetters('estate',['getEstateType']),
 
-  //       cVals.push(this.countryList[i].name)
-  //     }
-  //     return cVals
-  //  }
-    
-  }
+
+  },
+  mounted(){
+    this.estate_type()
+    // console.log('THE HOUSE TYPES',this.getEstateType )
+    // this.estateType=this.getEstateType
+  },
+
 
 }
 </script>

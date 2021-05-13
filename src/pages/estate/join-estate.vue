@@ -8,84 +8,91 @@
             <p>After Clicking join. The Estate admin will have to certify you as a member of the estate before you are allowed to join</p>
           </q-banner> -->
           <q-input v-model="searchText" type="text" label="Search for an estate"
-          hint="Type the name of the estate you want to join. Select the estate you want to join from the displayed result"
-          round outlined clearable 
-          :loading="loading"
-          @clear="clearSearch">
+            hint="Type the name of the estate you want to join. Select the estate you want to join from the displayed result"
+            round outlined clearable
+            :loading="loading"
+            @clear="clearSearch" >
 
-                <template #append>
-                   <q-icon name="search" class="text-blue"/>
-                </template>
+              <template #append>
+                  <q-icon name="search" class="text-blue"/>
+                  <q-btn label="search"
+                  color="secondary"
+                  @click="searchDB"
+                  :disable="isSearching"
 
-
-
-          </q-input>
-
-             <pre>
-              <!-- {{ estates }} -->
-              <!-- {{getEntry}} -->
-              <!-- {{ filteredEstates}} -->
-            </pre>
-
-
-          <q-list bordered separator class="q-mt-lg ">
-            <q-item  v-for="estate in filteredEstates" :key="estate.id">
-
-            <q-item-section  >
-              <q-item-label class="text-h6 text-grey-8">{{estate.name}}</q-item-label>
-              <q-item-label caption lines="2">{{estate.address}}</q-item-label>
-            </q-item-section>
-            <q-item-section side top>
-              <q-btn color="secondary"   label="Join" @click="joinEstate(estate.id)" />
-            </q-item-section>
-          </q-item>
-          </q-list>
-          <!-- <q-select v-model="searchText" :options="result" label="Search"
-          outlined rounded clearable
-          hint="Type the estate you want to search"
-          use-input fill-input
-            >
-
-              <template #before>
-                <q-icon name="search" />
+                  />
               </template>
 
-          </q-select> -->
-
+          </q-input>
+          <estate-list :estates="searchedEstates"  @estateJoiner="joinEstate"/>
+          <!-- <q-dialog v-model="showEstateForm" > -->
+              <estate-resident :estateid="estateid"  />
+          <!-- </q-dialog> -->
     </div>
   </div>
 
 </template>
 <script>
-import {mapState, mapActions} from 'vuex'
+import {mapState, mapGetters,mapMutations, mapActions} from 'vuex'
 import estateSamp from './../../store/db/estateList'
 export default {
+  components:{
+    'estate-list':require('components/estate/estateList').default,
+    'estate-resident':require('components/estate/resident-form').default,
+  },
   data(){
-
     return{
-      result:['one','two','three'],
+    // showEstateForm:false,
+      estateid:null,
       estates:[],
-      loading:false
+      loading:false,
+      isSearching:false
     }
   },
 
   methods:{
     ...mapActions('estate',['setSearch','search_estate']),
-
-    populateEstates(){
-       this.estates=estateSamp
+    ...mapMutations('estate',['setEstates']),
+    ...mapMutations('settings',['setJoinFormDiag']),
+    searchDB(){
+      if(this.search){
+        this.search_estate(this.searchText)
+          .then(res=>{
+            this.isSearching =true
+          })
+      } else {
+        console.log('enter a search text')
+        this.setEstates({})
+      }
     },
+    // populateEstates(){
+    //    this.estates=estateSamp
+    // },
     clearSearch(){
       this.searchText==''
-      this.populateEstates()
+      this.setEstates({})
+      // this.populateEstates()
     },
     joinEstate(id){
+      // This code is executed when you clicked Join in the search result (in page 'Join an Estate')
       console.log('Join this Estate : ', id)
+      this.estateid=id
+      this.setJoinFormDiag(true)
+
+      // window.$log=id
+      // $emit('dialoger',true)
+      // this.showEstateForm=true
+      // bring out a dialog box resident form.
+      // 1. Fill in name of Resident (firstname, lastname, phone - user model), address, active=0, is_admin=0
+      // 2.
+
     },
 
   },
   computed:{
     ...mapState('estate', ['search']),
+    ...mapGetters('estate', ['getEstates',]),
+
 
     searchText:{
       get(){
@@ -93,25 +100,23 @@ export default {
       },
       set(value){
          this.setSearch(value)
+         this.setEstates({})
+         this.isSearching=false
+        //  setTimeout(this.runThis(value),2000)
+
       }
     },
-    filteredEstates(){
-      let result=[]
-          console.log(this.searchText)
-        if(this.searchText){ // if user types something in the search box
-        // get all estate, and return only those which contains searchText text
-          this.estates.forEach(estate=>{
-            if(estate.name.toLowerCase().includes(this.searchText.toLowerCase())){
-              result.push(estate)
-            }
-          })
-        } else {
-          result=estateSamp
-        }
-          return result
-
+    searchedEstates(){
+      if(this.search){
+        // this.isSearching=false
+        return this.getEstates
+      }else {
+        return {}
+      }
     },
-   
+
+    //
+
     loadingStatus(){
       if(this.searchText) {
         return true
@@ -121,7 +126,7 @@ export default {
     }
   },
    mounted(){
-    this.populateEstates()
+    // this.populateEstates()
   },
 
 }

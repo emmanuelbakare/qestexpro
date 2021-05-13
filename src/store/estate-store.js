@@ -4,7 +4,11 @@ import Notifier from './../utils/notify'
 
 const state={
   search:'',
-  estates:{}
+  estates:{},
+  estateType:[],
+
+  // joinDiag:false,
+  // testval:'Something Fromo State',
 
 }
 const mutations={
@@ -12,14 +16,19 @@ const mutations={
   setSearch(state, value){
     state.search=value
   },
-  setSearchResult(state, result){
-    state.result=estates
-  }
+  setEstates(state, result){
+    state.estates=result
+  },
+  setEstateType(state, result){
+    console.log('COMMIT setEstateType');
+    state.estateType=result
+    console.log('FROM COMMIT ESTATETYPE : ', state.estateType)
+  },
 
 }
 
 const actions={
-  searched_estate({comit, getters}, payload){
+  search_estate({commit, getters}, payload){
     let key = localStorage.getItem('loggedIn')
     let current_user=JSON.parse(localStorage.getItem('user'))
     let config={
@@ -28,16 +37,38 @@ const actions={
         },
     }
     let url=`http://localhost:8000/api/estate/?status=1&search=${getters.getSearch}`
-    console.log('Search Link : ', url)
 
     axios.get(url)
       .then(result=>{
         console.log('RESULT : ', result.data)
-        commit('setSearchResult', result.data)
+        commit('setEstates', result.data)
       })
       .catch(error=>{
         console.log('THERE IS AN : ', error.message)
       })
+
+  },
+  estate_type({commit}){
+    let key = localStorage.getItem('loggedIn')
+    let current_user=JSON.parse(localStorage.getItem('user'))
+    let config={
+        headers:{
+          'Authorization':`Token ${key}`
+        },
+    }
+
+    let url="http://localhost:8000/api/estate/type/"
+
+    axios.get(url)
+      .then(result=>{
+        console.log('ESTATATE TYPE RESULT : ', result.data)
+        commit('setEstateType', result.data)
+      })
+      .catch(error=>{
+        console.log('THERE IS AN ERROR : ', error.message)
+    })
+
+
 
   },
   register_estate({commit},payload){
@@ -56,16 +87,20 @@ const actions={
         'state_region':payload.city,
         'country':payload.country,
         'comment':payload.comment,
+        'estate_type':payload.type,
         'admin':current_user.pk,
       }
 
       let url ='http://localhost:8000/api/estate/' //url for estate registration
       console.log('URL : ', url,' DATA : ',data,'CONFIG : ',config)
       if(key){
-        axios.post(url,data,config)
+        return axios.post(url,data,config)
           .then(res=>{
               console.log('New Estate Successfully registered ', res.data)
               Notifier ('New Estate Successfully Registered','secondary')
+               
+              //initiate the Create Resident and create the admin's resident record
+
           })
           .catch(error=>{
             console.log('THERE IS AN ERROR:', error.message)
@@ -76,6 +111,7 @@ const actions={
       }
 
   },
+
   setSearch({commit}, value){
     commit('setSearch', value)
   }
@@ -84,7 +120,12 @@ const actions={
 const getters={
   getSearch(state){
     return state.search
-
+  },
+  getEstates(state){
+    return state.estates
+  },
+  getEstateType(state){
+    return state.estateType
   }
 
 }
