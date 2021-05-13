@@ -44,6 +44,7 @@
          </q-card-section>
 
        </q-card>
+       <estate-resident  :estateid="estateid" />
          <pre>
               <h5>Estate Types</h5>
               {{estate}}
@@ -51,19 +52,21 @@
   </q-page>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters,mapMutations } from 'vuex';
 import {countryOne} from '../../store/db/countries'
 
 
 export default {
   components:{
-    
+    'estate-resident':require('components/estate/resident-form').default 
+
   },
 
   data(){
     return {
       countryList:countryOne,
       estateType:[],
+      estateid:'',
       estate:{
         name:'',
         total_house:'',
@@ -79,12 +82,18 @@ export default {
   },
   methods:{
     ...mapActions('estate',['register_estate','estate_type']),
+    ...mapMutations('settings',['setJoinFormDiag']),
+    ...mapMutations('estate',['setEstates']),
     // ...mapActions('settings',['setJoinFormDiag']),
       onSubmit () {
           this.register_estate(this.estate)
-            .then (()=>{
+            .then ((res)=>{
               // after registering completed the add user(admin) as first resident
-              console.log('Done Registering')
+              // after registration 
+              this.setEstates([res.data])
+              this.estateid = res.data.id
+              console.log('Estate ID', res.data.id);
+              this.setJoinFormDiag(true)
             })
         
         this.resetForm

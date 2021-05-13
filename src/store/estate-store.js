@@ -97,8 +97,8 @@ const actions={
         return axios.post(url,data,config)
           .then(res=>{
               console.log('New Estate Successfully registered ', res.data)
-              Notifier ('New Estate Successfully Registered','secondary')
-               
+              Notifier ('New Estate Successfully Registered','positive', 'bottom')
+              return res
               //initiate the Create Resident and create the admin's resident record
 
           })

@@ -62,7 +62,7 @@ export default {
     getSelectedEstate(){
       let selectedEstate={}
       let estates=this.getEstates
-
+      console.log('GROUP OF ESTATES', estates)
       if(estates.length){
         // console.log('LENGHT ',estates.length );
         estates.find(estateObj=>{
