@@ -26,6 +26,7 @@ const  sidebarLinks={
     links:  [
       {name:"Login", url:'/auth/', icon:'logout', description:"To become a resident or ask for service, you have to join us"},
       {name:"Register an Estate", url:'/estate/register/', icon:'login'},
+      {name:"Register an Estate 2", url:'/estate/register2/', icon:'login'},
       {name:"Join your Estate", url:'/estate/join/', icon:'door_back'},
       {name:"Be a Provider", url:'/auth/', icon:'room_preferences'},
     ] },

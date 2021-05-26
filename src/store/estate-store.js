@@ -20,9 +20,7 @@ const mutations={
     state.estates=result
   },
   setEstateType(state, result){
-    console.log('COMMIT setEstateType');
     state.estateType=result
-    console.log('FROM COMMIT ESTATETYPE : ', state.estateType)
   },
 
 }
@@ -61,7 +59,6 @@ const actions={
 
     axios.get(url)
       .then(result=>{
-        console.log('ESTATATE TYPE RESULT : ', result.data)
         commit('setEstateType', result.data)
       })
       .catch(error=>{
@@ -73,7 +70,7 @@ const actions={
   },
   register_estate({commit},payload){
       let key = localStorage.getItem('loggedIn')
-      let current_user=JSON.parse(localStorage.getItem('user'))
+
       let config={
           headers:{
             'Authorization':`Token ${key}`
@@ -88,7 +85,7 @@ const actions={
         'country':payload.country,
         'comment':payload.comment,
         'estate_type':payload.type,
-        'admin':current_user.pk,
+        // 'admin':[payload.admin],
       }
 
       let url ='http://localhost:8000/api/estate/' //url for estate registration
@@ -103,14 +100,44 @@ const actions={
 
           })
           .catch(error=>{
-            console.log('THERE IS AN ERROR:', error.message)
-
+            console.log('THERE IS AN ERROR : ', error.message)
           })
       } else {
         console.log('You are not logged in')
       }
 
   },
+  register_estate_resident({commit},payload){
+    let key = localStorage.getItem('loggedIn')
+    let current_user=JSON.parse(localStorage.getItem('user'))
+    let config={
+        headers:{
+          'Authorization':`Token ${key}`
+        },
+    }
+
+
+    let url ='http://localhost:8000/api/estate/resident2/' //url for estate registration
+    console.log('URL : ', url,' DATA : ',payload,'CONFIG : ',config)
+    if(key){
+      return axios.post(url,payload,config)
+        .then(result=>{
+            console.log('New Estate Successfully registered ', result.data)
+            Notifier ('New Estate Successfully Registered','positive', 'bottom')
+            return res
+
+        })
+        .catch(error=>{
+          console.log('THERE IS AN ERROR:', error.message)
+
+          Notifier('THERE IS AN ERROR: ', error.message)
+
+        })
+    } else {
+      Notifier('You are not Logged in')
+    }
+
+},
 
   setSearch({commit}, value){
     commit('setSearch', value)

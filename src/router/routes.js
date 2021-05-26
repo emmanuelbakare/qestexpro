@@ -14,7 +14,8 @@ const routes = [
     path: '/estate',
     component: () => import('layouts/Layout.vue'),
     children: [
-      { path: 'register/', component: () => import('pages/estate/estateRegister.vue') },
+      { path: 'register/', component: () => import('pages/estate/estate-register.vue') },
+      { path: 'register2/', component: () => import('pages/estate/estateRegister.vue') },
       { path: 'join/', component: () => import('pages/estate/join-estate.vue') }
     ]
   },

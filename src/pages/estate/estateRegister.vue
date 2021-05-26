@@ -28,10 +28,11 @@
             <q-input v-model="estate.city" type="text" label="City"    />
             <q-input v-model="estate.state_region" type="text" label="State or Region"    />
             <!-- <q-input v-model="estate.country" type="text" label="Country" outlined  /> -->
-            <q-select v-model="estate.country"  label="Countries"
-                  :options="countryList" option-value="code" option-label="name"
+            <!-- <q-select v-model="estate.country"  label="Countries"
+                  :options="countryList" option-value="name" option-label="name"
                   emit-value map-options
-               />
+               /> -->
+            <q-select v-model="estate.country"  label="Countries" :options="countryList"/>
 
             <q-input v-model="estate.comment" autogrow label="comment" dense      />
             <q-space/>
@@ -53,18 +54,19 @@
 </template>
 <script>
 import { mapActions, mapGetters,mapMutations } from 'vuex';
-import {countryOne} from '../../store/db/countries'
+import {countryTwo} from '../../store/db/countries'
 
 
 export default {
   components:{
-    'estate-resident':require('components/estate/resident-form').default 
+    'estate-resident':require('components/estate/resident-form').default
 
   },
 
   data(){
+
     return {
-      countryList:countryOne,
+      countryList:countryTwo,
       estateType:[],
       estateid:'',
       estate:{
@@ -76,7 +78,7 @@ export default {
         country:'',
         type:'',
         comment:'',
-        admin:'',
+        // admins:JSON.parse(localStorage.getItem('user')).pk
       }
     }
   },
@@ -89,17 +91,20 @@ export default {
           this.register_estate(this.estate)
             .then ((res)=>{
               // after registering completed the add user(admin) as first resident
-              // after registration 
+              // after registration
+              console.log('Registration Done', res.data)
               this.setEstates([res.data])
               this.estateid = res.data.id
               console.log('Estate ID', res.data.id);
               this.setJoinFormDiag(true)
+            }).catch(error=>{
+              console.log('ERROR: Registration not Completed')
             })
-        
+
         this.resetForm
-       
+
     },
- 
+
     resetForm(){
       this.estate={
         name:'',
