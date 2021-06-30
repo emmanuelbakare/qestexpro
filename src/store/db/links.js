@@ -8,6 +8,10 @@ const  sidebarLinks={
       {name:"Ajax Loading", url:'/test/ajaxloading/', icon:'event', description:"Using the Ajax Loader"},
       {name:"Floating Action", url:'/test/floatingAction/', icon:'settings', description:"using stick page and Float action component"},
       {name:"Dialog", url:'/test/dialog/', icon:'dashboard', description:"Dialog Box Example"},
+      {name:"Lodash Test", url:'/test/lodashtest/', icon:'dashboard', description:"Lodash Test"},
+      {name:"Dashboard", url:'/test/dashboard/', icon:'dashboard', description:"Admin Dashboard"},
+      {name:"Sample  1", url:'/test/sample-one/', icon:'dashboard', description:"Just some random works 1"},
+      {name:"Sample 2", url:'/test/sample-two/', icon:'dashboard', description:"Just some random works 2"},
       // {name:"Ajax Loading", url:'/test/ajaxloading/', icon:'event', description:"Page to test and research stuff"},
     ] },
   "myaccount":{
@@ -39,11 +43,11 @@ const  sidebarLinks={
     icon:"apartment",
     links:  [
       // {name:"Home", url:'/resident-home/', icon:'villa'},
-      {name:"Onboarding", url:'/home-onboarding/', icon:'skateboarding'},
-      {name:"Payments", url:'/home-payment/', icon:'money'},
-      {name:"My Requests", url:'/home-request/', icon:'phone'},
-      {name:"Mails", url:'/home-mail/', icon:'email'},
-      {name:"Downloads", url:'/home-download/', icon:'download'},
+      {name:"Onboarding", url:'/estate/onboarding/', icon:'skateboarding'},
+      {name:"Payments", url:'/estate/payments/', icon:'money'},
+      {name:"My Requests", url:'/estate/requests/', icon:'phone'},
+      {name:"Mails", url:'/estate/mails/', icon:'email'},
+      {name:"Downloads", url:'/estate/downloads/', icon:'download'},
     ] },
 
   "service":{

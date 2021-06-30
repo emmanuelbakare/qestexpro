@@ -19,7 +19,7 @@
       >
         <div class="text-h5 q-pb-lg text-green-10   ">Estate Details</div>
          <q-input v-model="estate.name" type="text" label="Estate Name"  class="q-pb-md" outlined  />
-            <q-select v-model="estate.estate_type_id"
+            <q-select v-model="estate.estate_type"
                   :options="getEstateType" option-value="id" option-label="name" class="q-pb-md"
                    emit-value  map-options label="Type"   outlined />
           <q-input v-model="estate.total_house" type="number" label="Total Number of Houses" outlined   />
@@ -55,9 +55,9 @@
       >
        <div class="q-gutter-md">
           <div class="text-h5  items-center text-green-10">Your Personal Info</div>
-              <q-input v-model="estate.account.first_name"     label="First Name"  outlined  />
-              <q-input v-model="estate.account.last_name"    label="Last Name" outlined  />
-              <q-input v-model="estate.account.phone"    label="Phone Number"  outlined />
+              <q-input v-model="account.first_name"     label="First Name"  outlined  />
+              <q-input v-model="account.last_name"    label="Last Name" outlined  />
+              <q-input v-model="account.phone"    label="Phone Number"  outlined />
               <!-- <q-input v-model="resident.comment"    label="Comment" type="textarea"
               hint="To help estate admin quickly approve your request to join this estate, kindly give more detail about yourself" outlined  /> -->
         </div>
@@ -69,7 +69,7 @@
         icon="assignment"
       >
       <div class="q-gutter-md">
-        <q-input v-model="estate.resident.house_address"    label="Your address in the estate eg. block 1 house 2"  outlined />
+        <q-input v-model="resident.house_address"    label="Your address in the estate eg. block 1 house 2"  outlined />
         <q-input v-model="estate.comment" type="textarea" label="what would you like to say to new residents joining in" dense   outlined   />
       </div>
       </q-step>
@@ -96,10 +96,10 @@
               {{estate}}
               Resident
               --------
-              {{estate.resident}}
+              {{resident}}
               account
               -------
-              {{estate.account}}
+              {{account}}
 
             </pre>
           </q-card-section>
@@ -125,59 +125,98 @@ export default {
       estateid:'',
       estate:{
         name:'',
-            total_house:'',
-            street1:'',
-            city:'',
-            state_region:'',
-            country:'',
-            estate_type_id:'',
-            comment:'',
-            resident:{
-              house_address:'',
-              comment:'',
-            },
-            account:{
-              last_name:'',
-              first_name:'',
-              phone:''
-            },
+        total_house:'',
+        street1:'',
+        city:'',
+        state_region:'',
+        country:'',
+        estate_type:'',
+        comment:'',
+      },
 
-      }
+      resident:{
+        house_address:'',
+        comment:'',
+        status:1
+      },
+      account:{
+        last_name:'',
+        first_name:'',
+        phone:''
+      },
 
     }
   },
   methods:{
-    ...mapActions('estate',['register_estate','register_estate_resident','estate_type']),
-    onSubmit(){
+    ...mapActions('estate',['register_estate',
+                              'register_estate_resident',
+                              'join_estate_admin',
+                              'estate_type',
+                              'join_estate_as_admin_resident',
+                              'update_first_last_name'
+                              ]),
+    async onSubmit(){
+      let current_user=JSON.parse(localStorage.getItem('user'))
+      let newestate= await this.register_estate_resident(this.estate)
+      console.log('REGISTERED ESTATE', newestate)
+      if(newestate){
 
-      let newestate=this.register_estate_resident(this.estate)
-      console.log('REGISTERED ESTATE AND ADMIN ', newestate)
-
-    },
-    resetForm(){
-          estate={
-            resident:{
-            house_address:'',
-            comment:'',
-
-          },
-          account:{
-            last_name:'',
-            first_name:'',
-            phone:''
-          },
-            name:'',
-            total_house:'',
-            street1:'',
-            city:'',
-            state_region:'',
-            country:'',
-            estate_type_id:'',
-            comment:'',
+        var newResident= await this.join_estate_as_admin_resident({estate:newestate.data,resident:this.resident})
+        // create Estate Resident join using EstateAdmin Model
+        //  "id": 26, "perms": 1, "user": 2, "estate": 45
+        console.log('NEW ESTATE RESIDENT', newResident)
+        let EstateAdmin=await this.join_estate_admin({estate: newestate.data.id,
+                                                      user:current_user.pk,
+                                                        perms:1
+                                                        })
+      }else {
+        console.log('THERE IS AN ERROR IN CREATING THE NEW ESTATE')
       }
 
 
+    // check if user first_name and last_name exists
+    var firstname=current_user.first_name
+    var lastname=current_user.last_name
+     let user_first_last_name=firstname +' '+ lastname
+    //  If there is no first and last name in the current user, then update the record
+    if (user_first_last_name.trim().length < 1 ){
+      let usernNamesUpdated= await this.update_first_last_name({
+                                  id:current_user.pk,
+                                  first_name:this.account.first_name,
+                                  last_name:this.account.last_name})
+      console.log('FIRST NAME AND LAST NAME updated')
+    }else {
+      console.log('FIRST NAME AND LAST NAME  EXIST,NO NEED TO CREATE')
+
+    }
+
+
+
     },
+    resetForm(){
+      // this.estate={
+      //   name:'',
+      //   total_house:'',
+      //   street1:'',
+      //   city:'',
+      //   state_region:'',
+      //   country:'',
+      //   estate_type:'',
+      //   comment:'',
+      // },
+      // this.resident={
+      //   house_address:'',
+      //   comment:'',
+      // },
+      //  this.account={
+      //   last_name:'',
+      //   first_name:'',
+      //   phone:''
+      // },
+
+
+    },
+
     isEmpty(val){
       return (val === undefined || val == null || val.length <= 0) ? true : false;
     }
@@ -189,7 +228,7 @@ export default {
    mounted(){
     this.estate_type()
     this.storedUser=JSON.parse(localStorage.getItem('user'))
-    console.log('STORE USER', this.storedUser);
+
     if(this.storedUser.first_name.length!=0){
       this.namesEmpty=true
     }

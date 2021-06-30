@@ -11,17 +11,10 @@
             hint="Type the name of the estate you want to join. Select the estate you want to join from the displayed result"
             round outlined clearable
             :loading="loading"
+             @input="searchDBTwo"
             @clear="clearSearch" >
 
-              <template #append>
-                  <q-icon name="search" class="text-blue"/>
-                  <q-btn label="search"
-                  color="secondary"
-                  @click="searchDB"
-                  :disable="isSearching"
 
-                  />
-              </template>
 
           </q-input>
           <estate-list :estates="searchedEstates"  @estateJoiner="joinEstate"/>
@@ -33,8 +26,10 @@
 
 </template>
 <script>
+import debounce from 'lodash/debounce'
 import {mapState, mapGetters,mapMutations, mapActions} from 'vuex'
 import estateSamp from './../../store/db/estateList'
+
 export default {
   components:{
     'estate-list':require('components/estate/estateList').default,
@@ -54,12 +49,21 @@ export default {
     ...mapActions('estate',['setSearch','search_estate']),
     ...mapMutations('estate',['setEstates']),
     ...mapMutations('settings',['setJoinFormDiag']),
+     searchDBTwo: debounce( function(e){
+                            console.log('search for text now')
+                             this.searchDB()
+                        }
+                          , 700),
+
     searchDB(){
       if(this.search){
         this.search_estate(this.searchText)
           .then(res=>{
             this.isSearching =true
           })
+
+
+
       } else {
         console.log('enter a search text')
         this.setEstates({})
@@ -75,7 +79,6 @@ export default {
     },
     joinEstate(id){
       // This code is executed when you clicked Join in the search result (in page 'Join an Estate')
-      console.log('Join this Estate : ', id)
       this.estateid=id
       this.setJoinFormDiag(true)
 

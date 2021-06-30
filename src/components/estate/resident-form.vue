@@ -14,10 +14,10 @@
 
             <q-card-section>
                   <!-- insert all form elements -->
-                  <q-input v-model="resident.firstname"     label="First Name" />
-                  <q-input v-model="resident.lastname"    label="Last Name" />
-                  <q-input v-model="resident.address"  autogrow   label="Address" hide-hint hint="Enter your address in the Estate" />
-                  <q-input v-model="resident.comment"  autogrow  label="Comment"  hide-hint hint="Tell estate Admin more about yourself" />
+                  <!-- <q-input v-model="resident.userinfo.firstname"     label="First Name" />
+                  <q-input v-model="resident.userinfo.lastname"    label="Last Name" /> -->
+                  <q-input v-model="resident.house_address"  autogrow   label="Address"  hint="Enter your address in the Estate" />
+                  <q-input v-model="resident.comment"  autogrow  label="Comment"   hint="Tell estate Admin more about yourself" />
             </q-card-section>
             <q-card-actions>
               <q-space/>
@@ -31,7 +31,7 @@
 
 </template>
 <script>
-import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters, mapMutations, mapActions} from 'vuex'
 export default {
   props:['estateid'],
 
@@ -39,10 +39,12 @@ export default {
     return {
       showDialog:false,
       resident:{
-        firstname:'',
-        lastname:'',
-        address:'',
+        house_address:'',
         comment:'',
+        // userinfo:{
+        //   firstname:'',
+        //   lastname:''
+        // },
       }
 
     }
@@ -54,24 +56,32 @@ export default {
   },
   methods:{
     ...mapMutations('settings', ['setJoinFormDiag']),
-    addResident(){
-      // this.onReset()
-      console.log('SELECTED ESTATE : ',this.getSelectedEstate())
+    ...mapActions('estate',['join_estate']),
+    // Resident(id, user, estate, house_address, status, created_date, comment)
+    async addResident(){
+      let  estate=this.getSelectedEstate()
+      // this.resident.estate_id=estate.id  //add the selected estate id to the resident info
+      let user=JSON.parse(localStorage.getItem('user'))
+      // this.resident.user_id=current_user.pk
+      this.resident.estate=estate
+      // this.resident.user=user
+
+      let joinedEstate=await this.join_estate(this.resident)
+      // reset the form and deactivate it
+      
+      console.log('ENTRY COMPLETED')
 
     },
     getSelectedEstate(){
+      //from the lists gotten in the result of search, pick the estate that was selected for used
+      // need to work on this so that there wont be loop through all search result
+      // instead when the button is clicked put the id in the button and pass it.
       let selectedEstate={}
       let estates=this.getEstates
-      console.log('GROUP OF ESTATES', estates)
-      if(estates.length){
-        // console.log('LENGHT ',estates.length );
+      if(estates.length){ // check if there are results in the search else return {} -nothing
         estates.find(estateObj=>{
           if(estateObj.id==this.estateid){
-            console.log('FOUND IT ', estateObj);
-            // selectedEstate=estateObj
               Object.assign(selectedEstate,estateObj)
-              // return selectedEstate
-            // console.log('SELECTED: ',selectedEstate)
             }
         })
       }

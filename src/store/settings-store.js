@@ -4,10 +4,14 @@ import Notifier from './../utils/notify'
 
 const state={
   joinFormDiag:false,
+  onBoardFormDiag:false,
 }
 const mutations={
   setJoinFormDiag(state, payload){
     state.joinFormDiag=payload
+  },
+  setOnBoardFormDiag(state, payload){
+    state.onBoardFormDiag=payload
   }
 
 
@@ -21,7 +25,10 @@ const getters={
 
   getJoinFormDiag(state){
     return state.joinFormDiag
-  }
+  },
+  getOnBoardFormDiag(state){
+    return state.onBoardFormDiag
+  },
 
 
 }

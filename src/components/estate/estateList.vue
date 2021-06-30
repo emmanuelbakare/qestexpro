@@ -22,8 +22,6 @@
 
 export default {
   props:['estates'],
-  
-
 }
 </script>
 
