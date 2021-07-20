@@ -68,7 +68,8 @@ export default {
 
       },
       login(){
-        this.$router.push('/auth')
+        // this.$router.push('/auth')
+        this.$router.replace('/auth')
       }
   },
   computed:{

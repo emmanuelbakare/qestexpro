@@ -6,5 +6,4 @@
   "vetur.experimental.templateInterpolationService": true,
 
   // Commit all changes when there are no staged changes.
-  "git.enableSmartCommit": false,
 }

@@ -12,16 +12,22 @@
               <q-space />
               <q-btn flat  fab-mini icon="close"  @click="getOnBoardFormDiag=false" />
           </q-toolbar>
-          <q-form @submit.prevent="createOnBoarding"   @reset="onReset" persistent class="q-gutter-md" >
+          <q-form
+            @submit.prevent="createOnBoarding"
+            @reset="onReset" persistent class="q-gutter-md"
 
-            <q-card-section>
-                  <q-input v-model="info.title"    label="Title" /> -->
+            autofocus
+             >
+
+            <q-card-section  >
+                  <q-input v-model="info.title"    label="Title" class="q-mb-md" />
                   <q-editor v-model="info.message" min-height="5rem"  class="q-mb-md"/>
-                  <q-file multiple v-model="info.attachment" outlined label="attach a file"  >
-                      <template v-slot:prepend >
+                  <q-file  v-model="info.attachment"  use-chips outlined label="attach a file"  >
+                      <template #prepend >
                          <q-icon name="attach_file" />
                       </template>
                   </q-file>
+
             </q-card-section>
             <q-card-actions>
               <q-space/>
@@ -43,7 +49,10 @@ export default {
       info:{
         title:'',
         message:'',
-        attachment:[]
+        attachment:[],
+      },
+      estate:{
+        id:67
       }
 
 
@@ -54,11 +63,12 @@ export default {
 
   },
   methods:{
-    ...mapActions('estate_onboarding',['list_onboardings']),
+    ...mapActions('estate_onboarding',['post_onboardings']),
 
     createOnBoarding(){
       console.log('create a new onboarding')
-      this.list_onboardings(this.info)
+      this.post_onboardings({info:this.info, estate:this.estate})
+      window.$board=this.info
       console.log(this.info)
       this.onReset()
       this.getOnBoardFormDiag=false

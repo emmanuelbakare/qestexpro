@@ -17,15 +17,18 @@
         </q-avatar>
         <q-btn class="text-grey-7" no-caps flat icon-right="chevron-down" label="Emmanuel Bakare"  />
      </q-toolbar>
+
+
+
+
     <q-drawer v-model="rightdrawer"  side="right" show-if-above bordered >
-      <div class="q-mt-md q-ml-md">
-        <q-btn icon="lens" color="red" flat dense round />
-        <q-btn icon="lens" color="yellow" flat dense round />
-        <q-btn icon="lens" color="green" flat dense round />
+      <div class="q-mt-md q-ml-md ">
+        <q-btn icon="lens" color="red" flat dense round  />
+        <q-btn icon="lens" color="yellow" flat dense round   />
+        <q-btn icon="lens" color="green" flat dense round  />
       </div>
         <div class="text-center q-py-md  ">
-          <q-btn class="q-px-lg  "  icon="cloud_upload" color="light-blue-8" label="Upload"  />
-
+          <q-btn class="q-px-lg "  icon="cloud_upload" color="light-blue-8" label="Upload"  />
         </div>
 
         <q-item clickable active-class="my-menu-link" v-ripple
@@ -120,7 +123,7 @@
 export default {
   data(){
     return {
-      rightdrawer:'',
+      rightdrawer:false,
       link:'My Page',
       text:'',
     }

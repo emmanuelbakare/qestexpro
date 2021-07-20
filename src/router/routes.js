@@ -36,6 +36,7 @@ const routes = [
       { path: 'lodashtest/', component: () => import('pages/test/lodashtest.vue') },
       { path: 'sample-one/', component: () => import('pages/test/sample-one.vue') },
       { path: 'sample-two/', component: () => import('pages/test/sample-two.vue') },
+      { path: 'sample-three/', component: () => import('pages/test/sample-three.vue') },
       { path: 'dashboard/', component: () => import('pages/test/dashboard.vue') },
 
     ]

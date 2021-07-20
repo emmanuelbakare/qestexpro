@@ -4,6 +4,7 @@ import auth from './auth-store'
 import estate from './estate-store'
 import settings from './settings-store'
 import estate_onboarding from './estate-onboarding-store'
+import test_store from './test-store'
 // import example from './module-example'
 
 Vue.use(Vuex)
@@ -25,6 +26,7 @@ export default function (/* { ssrContext } */) {
       estate,
       estate_onboarding,
       settings,
+      test_store
     },
 
     // enable strict mode (adds overhead!)

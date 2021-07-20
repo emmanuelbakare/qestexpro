@@ -1,5 +1,7 @@
 import axios from 'axios'
 import {LocalStorage} from 'quasar'
+import Vue from 'vue'
+import set from './../utils/settings'
 // import { Notify } from 'quasar'
 // import {notify} from 'src/utils/dialogs'
 
@@ -13,6 +15,9 @@ const mutations={
   },
   setLoggedIn(state, loggedIn){
     console.log(loggedIn)
+    // Vue.set(state.loggedIn,'loggedin', loggedIn.success)
+    // Vue.set(state.key,'key', loggedIn.data)
+    // Vue.set(state.user,'user', loggedIn.user)
     state.loggedIn=loggedIn.success
     state.key=loggedIn.data
     state.user=loggedIn.user
@@ -55,22 +60,22 @@ const actions={
 
   login({commit, dispatch},payload){
 
-    // console.log('FROM AUTH ACTION [LOGIN] ',payload )
+   // retrieve login credential from payload
       var credentials={
         "email":payload.email,
         "password":payload.password1
       }
 
-      // let url='http://localhost:8000/api/rest-auth/login/' // for restsample login
       let url='http://localhost:8000/rest-auth/login/' // for Estex login
       axios.post(url,credentials)
       .then(res=>{
-        let token=res.data.key
-        localStorage.setItem('loggedIn',token)
+        let token=res.data.key  // return token data
+        localStorage.setItem('loggedIn',token)  //store token in localstorage
 
         dispatch('user_info',token)
         commit('setLoggedIn',{success:true, data:token})
         this.$router.replace('/')
+        // this.$router.replace('/test/dashboard/')
 
 
       })
@@ -81,7 +86,6 @@ const actions={
 
   user_info({commit},payload){
 
-      // let url='http://localhost:8000/api/rest-auth/login/' // for restsample login
       let url='http://localhost:8000/rest-auth/user/' // Get the logged in User
       console.log('get User from : ', url)
       let config={

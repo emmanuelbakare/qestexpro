@@ -194,26 +194,6 @@ export default {
 
     },
     resetForm(){
-      // this.estate={
-      //   name:'',
-      //   total_house:'',
-      //   street1:'',
-      //   city:'',
-      //   state_region:'',
-      //   country:'',
-      //   estate_type:'',
-      //   comment:'',
-      // },
-      // this.resident={
-      //   house_address:'',
-      //   comment:'',
-      // },
-      //  this.account={
-      //   last_name:'',
-      //   first_name:'',
-      //   phone:''
-      // },
-
 
     },
 
