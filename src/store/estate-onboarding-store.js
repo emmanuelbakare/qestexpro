@@ -20,6 +20,7 @@ const mutations={
     state.onboardingList=payload
   },
   deleteOB(state, ObtoDelete){
+    console.log('Delete from List')
     objDelete(ObtoDelete, state.onboardingList)
   }
 
@@ -31,9 +32,8 @@ const actions={
     fdata.append('title', payload.info.title)
     fdata.append('message', payload.info.message)
     fdata.append('attachment', payload.info.attachment)
-    window.$fdata=fdata
     set.url=`http://localhost:8000/api/estate/${payload.estate.id}/onboarding/`
-    console.log('DATA ', payload, 'SETTING ', set, 'FORM DATA' , fdata);
+    console.log('DATA ', payload, 'SETTING ', set, 'FORM DATA' , fdata, 'URL', set.url);
     if(set.key){
       axios.post(set.url,fdata,set.config)
         .then(result=>{
@@ -69,7 +69,7 @@ const actions={
     .then(result=>{
       console.log('Onboarding', onboarding.title, "successfully deleted ", result.data)
       commit('deleteOB', onboarding)
-      Notify('Onboarding' +onboarding.title+ "successfully deleted ", 'red', 'bottom')
+      Notifier('Onboarding ' +onboarding.title+ " successfully deleted ", 'red', 'bottom')
 
 
     })
