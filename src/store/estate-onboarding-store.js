@@ -4,6 +4,7 @@ import Vue from 'vue'
 // import { Notify } from 'quasar'
 import Notifier from './../utils/notify'
 import set from './../utils/settings'
+import {objDelete, ojbDelete} from  './../utils/tools'
 
 const state={
   onboardingList:'',
@@ -17,6 +18,9 @@ const mutations={
 
   setOnboardingList(state, payload){
     state.onboardingList=payload
+  },
+  deleteOB(state, ObtoDelete){
+    objDelete(ObtoDelete, state.onboardingList)
   }
 
 }
@@ -58,14 +62,14 @@ const actions={
       console.log('ERROR OCCURRED', error.response)
     })
   },
-  delete_onboardin({commit},onboarding){
+  delete_onboarding({commit},onboarding){
     set.url=`http://localhost:8000/api/estate/onboarding/${onboarding.id}/`
+    console.log('IN ACTION: DELETE OBJECT ',onboarding,' USING ',set.url)
     axios.delete(set.url)
     .then(result=>{
       console.log('Onboarding', onboarding.title, "successfully deleted ", result.data)
-      //commit('setOnboardingList', result.data)
+      commit('deleteOB', onboarding)
       Notify('Onboarding' +onboarding.title+ "successfully deleted ", 'red', 'bottom')
-
 
 
     })

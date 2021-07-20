@@ -1,4 +1,4 @@
-const estates= [
+export const estates= [
   {
     id:1,
     "name": "JIKSYS ESTATE PHASE 1",
@@ -55,7 +55,7 @@ let est3={
 
 var breakException={}
 
-const searchObj=(toSearch, fromArray)=>{
+export const searchObj=(toSearch, fromArray)=>{
   let found=false
   fromArray.forEach(obj=>{
     // console.log('is', obj.id, 'same as ',toSearch.id, '?')
@@ -66,7 +66,7 @@ const searchObj=(toSearch, fromArray)=>{
   return found
 }
 
-const searchObjIndex=(toSearch, fromArray)=>{
+export const searchObjIndex=(toSearch, fromArray)=>{
   let result=null
   // let found=false
    for (let i = 0; i < fromArray.length; i++) {
@@ -85,11 +85,12 @@ const searchObjIndex=(toSearch, fromArray)=>{
 
 }
 
-const objDelete=(todel, delFrom)=>{
+export const objDelete=(todel, delFrom)=>{
   let result=null
   let newArray={}
    if(result=searchObjIndex(todel, delFrom)){
     let newArray =delFrom.splice(result, 1)
+    console.log(' Objected Deleted', todel)
 
    }
 
@@ -98,7 +99,7 @@ const objDelete=(todel, delFrom)=>{
 
 }
 
-const objDeleteMult=(arrayToDel, arrayToDelFrom)=>{
+export const objDeleteMult=(arrayToDel, arrayToDelFrom)=>{
 
   //pick each item to delete
    arrayToDel.forEach(objToDel=>{
@@ -107,10 +108,10 @@ const objDeleteMult=(arrayToDel, arrayToDelFrom)=>{
 }
 
 //  console.log(searchObj(est3, estates))      //foreach loop
-console.log(estates.length)
-console.log(objDelete(est3, estates))
-console.log(estates.length)
-console.log(estates)
+// console.log(estates.length)
+// console.log(objDelete(est3, estates))
+// console.log(estates.length)
+// console.log(estates)
 //  console.log(searchObjIndex(est3, estates))   // for loop
 
 

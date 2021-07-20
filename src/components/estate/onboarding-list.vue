@@ -28,6 +28,8 @@
 
  import {mapGetters, mapActions} from 'vuex';
  import Notify from './../../utils/notify'
+//  import Notify from './../../utils/tools'
+
 
 
  export default {
@@ -43,14 +45,15 @@
      ...mapGetters('estate_onboarding',['getOnboardingList']),
    },
    methods:{
-     ...mapActions('estate_onboarding',['list_onboardings']),
+     ...mapActions('estate_onboarding',['list_onboardings','delete_onboarding']),
      editOB(result){
          console.log('Edit this OB', result)
          Notify("Edit This "+result.title,"green",  "bottom")
      },
      deleteOB(result){
        console.log('Delete this '+result, result)
-         Notify(result.title+"- Deleted","red",  "bottom")
+       this.delete_onboarding(result)
+        //  Notify(result.title+"- Deleted","red",  "bottom")
      }
    },
    mounted(){
