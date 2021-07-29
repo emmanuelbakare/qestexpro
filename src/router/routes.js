@@ -30,13 +30,15 @@ const routes = [
     path: '/test',
     component: () => import('layouts/Layout.vue'),
     children: [
+      { path: 'sample-one/', component: () => import('pages/test/sample-one.vue') },
+      { path: 'sample-two/', component: () => import('pages/test/sample-two.vue') },
+      { path: 'sample-three/', component: () => import('pages/test/sample-three.vue') },
+      { path: 'sample-four/', component: () => import('pages/test/sample-four.vue') },
+      { path: 'composition-api/', component: () => import('pages/test/composition-api.vue') },
       { path: 'ajaxloading/', component: () => import('pages/test/ajaxloading.vue') },
       { path: 'floatingAction/', component: () => import('pages/test/floatingAction.vue') },
       { path: 'dialog/', component: () => import('pages/test/dialog.vue') },
       { path: 'lodashtest/', component: () => import('pages/test/lodashtest.vue') },
-      { path: 'sample-one/', component: () => import('pages/test/sample-one.vue') },
-      { path: 'sample-two/', component: () => import('pages/test/sample-two.vue') },
-      { path: 'sample-three/', component: () => import('pages/test/sample-three.vue') },
       { path: 'dashboard/', component: () => import('pages/test/dashboard.vue') },
 
     ]

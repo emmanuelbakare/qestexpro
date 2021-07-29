@@ -1,6 +1,5 @@
 <template>
   <div>
-    <strong>Onboarding List</strong>
 
       <q-list bordered separator dense >
         <q-item clickable v-ripple
@@ -12,10 +11,11 @@
           </q-item-section  >
           <q-item-section >{{result.title}}</q-item-section>
           <q-item-section>
-            <!-- <editbar /> -->
+
              <div>
-                <q-btn color="green" flat dense icon="draw"  @click="editOB(result)" />
-                <q-btn color="red" flat dense icon="event"  @click="deleteOB(result)" />
+                <q-btn color="orange" flat dense icon="edit" size="13px" @click.stop="editOB(result)" title="Edit" />
+                <q-btn color="red" flat dense icon="delete_forever"  size="13px"  title="delete"  @click.stop="deleteOB(result)" />
+
                </div>
           </q-item-section>
         </q-item>
@@ -26,7 +26,7 @@
 
 <script>
 
- import {mapGetters, mapActions} from 'vuex';
+ import {mapGetters, mapActions, mapMutations} from 'vuex';
  import Notify from './../../utils/notify'
 //  import Notify from './../../utils/tools'
 
@@ -46,12 +46,15 @@
    },
    methods:{
      ...mapActions('estate_onboarding',['list_onboardings','delete_onboarding']),
+     ...mapMutations('settings', ['setOnBoardFormDiag']),
      editOB(result){
-         console.log('Edit this OB', result)
-         Notify("Edit This "+result.title,"green",  "bottom")
+         console.log('Edit this OB',result )
+
+         this.$emit('fillInfo', result)
+        this.setOnBoardFormDiag(true)
+        //  Notify("Edit This "+result.title,"green",  "bottom")
      },
      deleteOB(result){
-       console.log('Delete this '+result, result)
        this.delete_onboarding(result)
         //  Notify(result.title+"- Deleted","red",  "bottom")
      }

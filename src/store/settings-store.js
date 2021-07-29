@@ -7,13 +7,12 @@ const state={
   onBoardFormDiag:false,
 }
 const mutations={
-  setJoinFormDiag(state, payload){
-    state.joinFormDiag=payload
-  },
-  setOnBoardFormDiag(state, payload){
-    state.onBoardFormDiag=payload
-  }
-
+    setJoinFormDiag(state, payload){
+      state.joinFormDiag=payload
+    },
+    setOnBoardFormDiag(state,val){
+      state.onBoardFormDiag=val
+    },
 
 }
 

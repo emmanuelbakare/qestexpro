@@ -41,10 +41,6 @@ export default {
       resident:{
         house_address:'',
         comment:'',
-        // userinfo:{
-        //   firstname:'',
-        //   lastname:''
-        // },
       }
 
     }
@@ -57,7 +53,7 @@ export default {
   methods:{
     ...mapMutations('settings', ['setJoinFormDiag']),
     ...mapActions('estate',['join_estate']),
-    // Resident(id, user, estate, house_address, status, created_date, comment)
+
     async addResident(){
       let  estate=this.getSelectedEstate()
       // this.resident.estate_id=estate.id  //add the selected estate id to the resident info
@@ -68,9 +64,6 @@ export default {
 
       let joinedEstate=await this.join_estate(this.resident)
       // reset the form and deactivate it
-      
-      console.log('ENTRY COMPLETED')
-
     },
     getSelectedEstate(){
       //from the lists gotten in the result of search, pick the estate that was selected for used

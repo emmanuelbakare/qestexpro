@@ -1,64 +1,10 @@
-export const estates= [
-  {
-    id:1,
-    "name": "JIKSYS ESTATE PHASE 1",
-    "address": "JIKSYS Software Close, No 3, MTN boulevard Houston Texas",
-  },
-  {
-    id:2,
-    "name": "Moorland Estate",
-    "address": "JIKSYS ESTATE, Lamide Close, Isolo Ikeja. Lagos, Nigeria",
-  },
-  {
-    id:3,
-    "name": "TPumpy Phase 1",
-    "address": "CD 24, Behind Living Faith Church, New Lugbe Extension, Lugbe FCT.Abuja Nigeria",
-  },
-  {
-    id:4,
-    "name": "Convenant Estate",
-    "address": "CD 34, Behind Living Faith Church, New Lugbe Extension, Lugbe FCT.Abuja Nigeria",
-  },
-  {
-    id:5,
-    "name": "Philkruz Estate",
-    "address": "Opposite Apostolic Church, by Christ Embassy, Dakibiyu, Jabi FCT. Abuja, Nigeria",
-  },
-  {
-    id:6,
-    "name": "Dove Court Estate",
-    "address": "Estate 1, Dove Court Crescent, Behind Utako Ultra Modern Market Utako FCT. Abuja, Nigeria",
-  },
-  {
-    id:7,
-    "name": "Bilaad Realty",
-    "address": "Suite 205, Shashilga Court, Plot 111&112, Sector A, 900211, Abuja",
-  },
-  {
-    id:8,
-    "name": "Manreng Estate",
-    "address": "Life Camp Road, Kafe District, Olu Awotesu St, Abuja",
-  },
-  {
-    id:9,
-    "name": "JIKSYS ESTATE PHASE 3",
-    "address": "JIKSYS ESTATE, Lamide Close, Isolo Ikeja. Lagos, Nigeria",
-  },
 
-]
-
-let est3={
-  id:2,
-  "name": "Moorland Estate",
-  "address": "JIKSYS ESTATE, Lamide Close, Isolo Ikeja. Lagos, Nigeria",
-}
 
 var breakException={}
 
 export const searchObj=(toSearch, fromArray)=>{
   let found=false
   fromArray.forEach(obj=>{
-    // console.log('is', obj.id, 'same as ',toSearch.id, '?')
     if(obj.id==toSearch.id){
      found=true
     }
@@ -66,13 +12,18 @@ export const searchObj=(toSearch, fromArray)=>{
   return found
 }
 
+const verifyArray=(obj)=> (Array.isArray(obj) ?  obj :[obj] )
+
+
 export const searchObjIndex=(toSearch, fromArray)=>{
-  let result=null
+  let result=-1
   // let found=false
+
+   let toSearch2=verifyArray(toSearch)
    for (let i = 0; i < fromArray.length; i++) {
 
     const element = fromArray[i];
-    if(element.id==toSearch.id){
+    if(element.id==toSearch2[0].id){
       // return element
         result=i
         console.log('Search index ', result)
@@ -85,19 +36,38 @@ export const searchObjIndex=(toSearch, fromArray)=>{
 
 }
 
-export const objDelete=(todel, delFrom)=>{
-  let result=null
+export const objDelete=(todel, delFrom, ret=false)=>{
   let newArray={}
-   if(result=searchObjIndex(todel, delFrom)){
-    let newArray =delFrom.splice(result, 1)
-    console.log(' Objected Deleted', todel)
-
+  let result=searchObjIndex(todel, delFrom)
+   if(result >= 0){
+     newArray =delFrom.splice(result, 1)
    }
+   return (ret? newArray: delFrom)
 
-   return newArray
+  //  return delFrom
+  //  return newArray
 
 
 }
+export const isEmpty = val => val == null || !(Object.keys(val) || val).length;
+export const moveObj=(obj,moveTo={})=>{
+
+  Object.keys(obj).forEach(key=>{
+    moveTo[key]=obj[key]
+    delete obj[key]
+  })
+  return moveTo
+
+}
+
+export const deepClone = obj => {
+  let clone = Object.assign({}, obj);
+  Object.keys(clone).forEach(
+    key => (clone[key] = typeof obj[key] === 'object' ? deepClone(obj[key]) : obj[key])
+  );
+  return Array.isArray(obj) ? (clone.length = obj.length) && Array.from(clone) : clone;
+};
+
 
 export const objDeleteMult=(arrayToDel, arrayToDelFrom)=>{
 
@@ -106,6 +76,12 @@ export const objDeleteMult=(arrayToDel, arrayToDelFrom)=>{
      objDelete(objToDel, arrayToDelFrom)
    })
 }
+
+export const test=()=>{
+  return "Testing Return from tools"
+}
+
+
 
 //  console.log(searchObj(est3, estates))      //foreach loop
 // console.log(estates.length)

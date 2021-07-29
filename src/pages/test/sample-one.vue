@@ -31,21 +31,42 @@
          </q-list>
 
        </div>
+         <h3>working with array</h3>
+
+         <q-separator spaced/>
+         <pre>
+            {{ delObj()}}
+         </pre>
 
 
-
-       <q-footer reveal bordered>
-       <q-tabs class="lt-md">
-           <q-route-tab name="mails" icon="mail" label="Mails" to="/estate/join/"   />
-           <q-route-tab name="alarms" icon="alarm" label="Alarms" to="/estate/join/" />
-           <q-route-tab name="sample" icon="event" label="Join" to="/estate/join/" />
-       </q-tabs>
-       </q-footer>
   </q-page>
 </template>
 <script>
-
+import estates from './../../store/db/estateList'
+import {objDelete,searchObj,searchObjIndex}  from './../../utils/tools'
 export default {
+
+
+  data(){
+    return{
+      estates,
+      estate:{
+              id:8,
+              "name": "Philkruz Estate",
+              "address": "Opposite Apostolic Church, by Christ Embassy, Dakibiyu, Jabi FCT. Abuja, Nigeria",
+          },
+
+
+
+    }
+  },
+  methods:{
+    delObj(){
+      // let result= tools.objDelete(this.estate, estates)
+      // return result
+      return   objDelete(this.estate, this.estates)
+    }
+  }
 
 }
 </script>

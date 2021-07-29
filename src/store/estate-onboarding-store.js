@@ -19,9 +19,11 @@ const mutations={
   setOnboardingList(state, payload){
     state.onboardingList=payload
   },
-  deleteOB(state, ObtoDelete){
-    console.log('Delete from List')
-    objDelete(ObtoDelete, state.onboardingList)
+  deleteOB(state, objToDel){
+    // console.log('about to delete ',objToDel, 'FROM : ', state.onboardingList )
+    state.onboardingList= objDelete(objToDel, state.onboardingList)
+    // state.onboardingList= state.onboardingList.splice(state.onboardingList[objToDel.id],1)
+
   }
 
 }
@@ -52,11 +54,8 @@ const actions={
     set.url=`http://localhost:8000/api/estate/67/obList/`
     axios.get(set.url)
     .then(result=>{
-      console.log('LIST OF ONBOARDINGS ',result.data)
       commit('setOnboardingList', result.data)
       // return result.data
-
-
     })
     .catch(error=>{
       console.log('ERROR OCCURRED', error.response)
@@ -68,13 +67,13 @@ const actions={
     axios.delete(set.url)
     .then(result=>{
       console.log('Onboarding', onboarding.title, "successfully deleted ", result.data)
-      commit('deleteOB', onboarding)
       Notifier('Onboarding ' +onboarding.title+ " successfully deleted ", 'red', 'bottom')
+      commit('deleteOB', onboarding)
 
 
     })
     .catch(error=>{
-      console.log('ERROR OCCURRED', error.response)
+      console.log('ERROR OCCURRED', error)
     })
   }
 
