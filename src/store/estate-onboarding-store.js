@@ -25,6 +25,7 @@ const mutations={
   setOnboardingList(state, payload){
     state.onboardingList=payload
   },
+
   deleteOB(state, objToDel){
     // console.log('about to delete ',objToDel, 'FROM : ', state.onboardingList )
     state.onboardingList= objDelete(objToDel, state.onboardingList)
@@ -88,6 +89,26 @@ const actions={
     .catch(error=>{
       console.log('ERROR OCCURRED', error)
     })
+  },
+  edit_onboarding({commit},editedData){
+
+
+    set.url=`http://localhost:8000/api/estate/onboarding/${editedData.id}/`
+    console.log('edit URL ',set.url)
+    console.log('Onboarding Data ', editedData)
+
+    axios.patch(set.url,editedData,set.config)
+    .then(result=>{
+      // commit('addOnboarding', result.data)
+      Notifier (editedData.title + 'UPDATED','positive', 'bottom')
+    // return result
+    }).catch(error=>{
+      console.log('THERE IS AN ERROR:', error.response)
+      Notifier('CANNOT UPDATE ONBOARDING : ', error.response)
+    })
+
+
+
   }
 
 }

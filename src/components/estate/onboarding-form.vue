@@ -90,7 +90,7 @@ export default {
 
   },
   methods:{
-    ...mapActions('estate_onboarding',['post_onboardings']),
+    ...mapActions('estate_onboarding',['post_onboardings','edit_onboarding']),
     ...mapMutations('settings', ['setOnBoardFormDiag']),
     ...mapMutations('estate_onboarding', ['setEditOB','setOBcreate']),
 
@@ -123,9 +123,12 @@ export default {
     },
     editOnboarding(){
       console.log('Edit OB FORM')
+      this.edit_onboarding(this.info)
+      this.onReset()
+      this.setOnBoardFormDiag(false)
 
     },
-    
+
 
 
     onReset(){
