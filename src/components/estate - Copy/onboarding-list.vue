@@ -33,7 +33,9 @@
 
 
  export default {
-
+   components:{
+    //  'editbar':require('../editbar').default
+   },
    data(){
     return {
        result:[],
@@ -41,19 +43,16 @@
    },
    computed: {
      ...mapGetters('estate_onboarding',['getOnboardingList']),
-    //  ...mapGetters('estate',['getEditInfo']),
    },
    methods:{
      ...mapActions('estate_onboarding',['list_onboardings','delete_onboarding']),
      ...mapMutations('settings', ['setOnBoardFormDiag']),
-     ...mapMutations('estate_onboarding', ['setEditOB','setOBcreate']),
-
      editOB(result){
-        console.log('(editOB func in onboarding-list ', result)
-        // this.$emit('fillInfo', result)
-        this.setOBcreate(false)  ///state that you dont want to create. which means you want to edit
-        this.setEditOB(result)   // send what to edit to editOB in vuex state
-        this.setOnBoardFormDiag(true) // open the form dialog
+         console.log('Edit this OB',result )
+
+         this.$emit('fillInfo', result)
+        this.setOnBoardFormDiag(true)
+        //  Notify("Edit This "+result.title,"green",  "bottom")
      },
      deleteOB(result){
        this.delete_onboarding(result)

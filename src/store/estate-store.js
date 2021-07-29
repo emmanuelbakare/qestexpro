@@ -7,9 +7,7 @@ const state={
   search:'',
   estates:{},
   estateType:[],
-
-  // joinDiag:false,
-  // testval:'Something Fromo State',
+ 
 
 }
 const mutations={
@@ -24,11 +22,12 @@ const mutations={
     state.estateType=result
   },
 
+
 }
 
 const actions={
   search_estate({commit, getters}, payload){
-     
+
     // let url=`http://localhost:8000/api/estate/?status=1&search=${getters.getSearch}`
     set.url=`http://localhost:8000/api/estate/?status=1&search=${getters.getSearch}`
     // console.log('NEW SETTINGS', set)
@@ -57,7 +56,7 @@ estate_type({commit}){
 
 },
   register_estate({commit},payload){
-       
+
       let data={
         'name':payload.name,
         'total_house':payload.total_house,
@@ -207,7 +206,7 @@ estate_type({commit}){
   //  let current_user=JSON.parse(localStorage.getItem('user'))
   let estate=payload.estate  //assign estate obj to estate
   let resident= payload.resident  // assign resident data to resident var
-  
+
   set.url= `http://localhost:8000/api/estate/${estate.id}/resident/`
    console.log('URL : ', set.url, 'estate ', set.estate, 'RESIDENT ', set.resident)
    if(set.key){
@@ -285,7 +284,8 @@ const getters={
   },
   getEstateType(state){
     return state.estateType
-  }
+  },
+
 
 }
 

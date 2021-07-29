@@ -8,6 +8,12 @@ import {objDelete, ojbDelete} from  './../utils/tools'
 
 const state={
   onboardingList:'',
+  OBcreate:true,
+  editOB:{
+    title:'',
+    message:'',
+    attachment:[],
+  },
 
 }
 const mutations={
@@ -24,6 +30,13 @@ const mutations={
     state.onboardingList= objDelete(objToDel, state.onboardingList)
     // state.onboardingList= state.onboardingList.splice(state.onboardingList[objToDel.id],1)
 
+  },
+  setEditOB(state, result){
+    state.editOB=result
+    console.log('Edit OB in State from mutation', state.editOB)
+  },
+  setOBcreate(state, result){
+    state.OBcreate=result
   }
 
 }
@@ -83,7 +96,12 @@ const getters={
   getOnboardingList(state){
     return state.onboardingList
   },
-
+  getEditOB(state){
+    return state.editOB
+  },
+  getOBcreate(state){
+    return state.OBcreate
+  }
 
 }
 

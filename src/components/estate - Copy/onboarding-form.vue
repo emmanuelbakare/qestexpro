@@ -1,6 +1,6 @@
 <template>
   <div padding>
-    <q-btn color="primary" icon="check" label="Create Onboading" @click="createNewDialog()" />
+    <q-btn color="primary" icon="check" label="Create Onboading" @click="obForm=true" />
        <q-dialog v-model="obForm"  >
         <q-card class="my-card" style="min-width:300px">
           <q-toolbar class="bg-secondary text-white">
@@ -13,8 +13,7 @@
           <q-form
 
             @reset="onReset" persistent class="q-gutter-md"
-            @submit.prevent="getOBcreate? createOnboarding(): editOnboarding()"
-
+            @submit.prevent="createOnBoarding"
             autofocus
              >
 
@@ -30,15 +29,14 @@
             </q-card-section>
             <q-card-actions>
               <q-space/>
-                  <!-- <q-btn label="Create" type="submit" color="primary" /> -->
-                  <q-btn label="Create" type="submit" color="primary" v-if="getOBcreate"  />
-                  <q-btn label="Update" type="submit" color="primary" v-if="!getOBcreate"   />
+                  <q-btn label="Create" type="submit" color="primary" />
+                  <!-- <q-btn label="Create" type="submit" color="primary" v-if="create"  /> -->
+                  <!-- <q-btn label="Update" type="submit" color="primary" v-if="!create"  @submit.prevent="editOnBoarding"/> -->
                   <q-btn label="Reset" type="reset" color="primary"  outline class="q-ml-sm" />
               </q-card-actions>
           </q-form>
           <pre>
-           <div>Edit OB : {{getEditOB}}</div>
-           <div>Create: {{getOBcreate}} </div>
+            {{$data}}
           </pre>
         </q-card>
     </q-dialog>
@@ -49,10 +47,23 @@ import {mapActions, mapMutations, mapGetters} from 'vuex'
 import _ from 'lodash'
 import {moveObj, deepClone} from './../../utils/tools'
 export default {
+  props:{
+    'editdata':{
+      type:Object,
+      default:function(){
+          return {
+          title:'',
+          message:'',
+          attachment:''
+         }
+      }
+    }
+  },
 
   data(){
     return {
       // getOnBoardFormDiag:false,\
+      create:true,
       info:{
         title:'',
         message:'',
@@ -66,7 +77,6 @@ export default {
   },
    computed:{
     ...mapGetters('settings', ['getOnBoardFormDiag']),
-    ...mapGetters('estate_onboarding', ['getEditOB','getOBcreate']),
     obForm:{
       get(){
         return this.getOnBoardFormDiag
@@ -74,58 +84,55 @@ export default {
         this.setOnBoardFormDiag(val)
       }
     },
-
     infoData(){
       return this.confirmAction()
 
-    },
-    resetOB(){
-      return {
-            id:'',
-           title:'',
-            message:'',
-            attachment:''
-         }
     }
 
   },
   methods:{
     ...mapActions('estate_onboarding',['post_onboardings']),
     ...mapMutations('settings', ['setOnBoardFormDiag']),
-    ...mapMutations('estate_onboarding', ['setEditOB','setOBcreate']),
 
-    createNewDialog(){
-      // onclicking  'create onboarding'
-      this.setOBcreate(true)  //setOBcreate to true to signify that you are doing create and not edit
-      this.obForm=true  // open the dialog
-      this.info=this.resetOB
-      this.setEditOB(this.info) //initialize the data in
-    },
     confirmAction(){
 
-        if(this.getOBcreate){
-          console.log('Create New ', this.info)
+         if(_.isEmpty(this.editdata)){ // if this.editdata is empty then it means we are Creating
+          console.log('Create New Onboading')
+          this.create=true
+          this.onReset()
           return this.info
+        } else { // if this.editdata is NOT empty then it means we are editing
+          console.log('Edit New Onboading')
+          this.create=false
+          // this.info=_.cloneDeep(this.editdata)
+          // this.info=deepClone(this.editdata)
+          window.$data2=Object.assign({}, this.editdata)
 
-        } else {
-          console.log('Edit a new one')
-          this.info=this.getEditOB
-          // this.setOBcreate(true)  // after
+          this.info=moveObj(this.editdata)
+          window.$editdata=this.editdata
+          window.$info=this.info
+          console.log('new EDIT data', this.editdata)
+          // return this.editdata
+          // this.$emit('cleanData')
           return this.info
         }
     },
+    createOnBoarding(){
+      console.log('create Onboarding')
 
-    createOnboarding(){
-        console.log('Create NEW OB FORM')
-        this.post_onboardings({info:this.info, estate:this.estate})
-        this.onReset()
-         this.setOnBoardFormDiag(false)
-    },
-    editOnboarding(){
-      console.log('Edit OB FORM')
+      // if(this.create){
+      //   // this.post_onboardings({info:this.info, estate:this.estate})
+      //   // this.onReset()
+      //   // this.setOnBoardFormDiag(false)
+      //   console.log('create data')
+      // } else {
+      //   console.log('edit data')
+      // }
 
     },
-    
+    editOnBoarding(){
+      console.log('edit Onboarding')
+    },
 
 
     onReset(){

@@ -2,11 +2,9 @@
   <q-page padding>
        <h3>Estate Onboarding</h3>
        <!-- if you are an admin then show the create onboarding message else just list all the onboarding messages titles -->
-      <!-- <onboarding-form :editdata="infoData"  /> -->
-      <onboarding-form   />
+      <onboarding-form :editdata="infoData"  />
       <q-card>
-       <!-- <list-onboarding @fillInfo="editForm"/> -->
-       <list-onboarding />
+       <list-onboarding @fillInfo="editForm"/>
       </q-card>
 
 
