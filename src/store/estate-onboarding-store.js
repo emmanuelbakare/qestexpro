@@ -4,7 +4,7 @@ import Vue from 'vue'
 // import { Notify } from 'quasar'
 import Notifier from './../utils/notify'
 import set from './../utils/settings'
-import {objDelete, ojbDelete} from  './../utils/tools'
+import {objDelete, ojbDelete, deepClone} from  './../utils/tools'
 
 const state={
   onboardingList:'',
@@ -12,7 +12,7 @@ const state={
   editOB:{
     title:'',
     message:'',
-    attachment:[],
+    attachment:'',
   },
 
 }
@@ -80,8 +80,8 @@ const actions={
     console.log('IN ACTION: DELETE OBJECT ',onboarding,' USING ',set.url)
     axios.delete(set.url)
     .then(result=>{
-      console.log('Onboarding', onboarding.title, "successfully deleted ", result.data)
-      Notifier('Onboarding ' +onboarding.title+ " successfully deleted ", 'red', 'bottom')
+      // console.log('Successfully deleted "'+onboarding.title+'"', result.data)
+      Notifier('Successfully deleted "'+onboarding.title+'"', 'red', 'bottom')
       commit('deleteOB', onboarding)
 
 
@@ -96,11 +96,10 @@ const actions={
     set.url=`http://localhost:8000/api/estate/onboarding/${editedData.id}/`
     console.log('edit URL ',set.url)
     console.log('Onboarding Data ', editedData)
-
     axios.patch(set.url,editedData,set.config)
     .then(result=>{
       // commit('addOnboarding', result.data)
-      Notifier (editedData.title + 'UPDATED','positive', 'bottom')
+      Notifier ('UPDATED TO : '+'"'+ editedData.title +'"','positive', 'bottom')
     // return result
     }).catch(error=>{
       console.log('THERE IS AN ERROR:', error.response)

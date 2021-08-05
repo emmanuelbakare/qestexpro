@@ -96,6 +96,7 @@ export default {
 
     createNewDialog(){
       // onclicking  'create onboarding'
+      this.onReset()
       this.setOBcreate(true)  //setOBcreate to true to signify that you are doing create and not edit
       this.obForm=true  // open the dialog
       this.info=this.resetOB

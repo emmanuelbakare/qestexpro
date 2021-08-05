@@ -28,7 +28,6 @@
 
  import {mapGetters, mapActions, mapMutations} from 'vuex';
  import Notify from './../../utils/notify'
-//  import Notify from './../../utils/tools'
 
 
 
@@ -52,12 +51,12 @@
         console.log('(editOB func in onboarding-list ', result)
         // this.$emit('fillInfo', result)
         this.setOBcreate(false)  ///state that you dont want to create. which means you want to edit
+        console.log('FORM RESULT ',result )
         this.setEditOB(result)   // send what to edit to editOB in vuex state
-        this.setOnBoardFormDiag(true) // open the form dialog
+        this.setOnBoardFormDiag(true) // open the Onboarding form dialog
      },
      deleteOB(result){
        this.delete_onboarding(result)
-        //  Notify(result.title+"- Deleted","red",  "bottom")
      }
    },
    mounted(){

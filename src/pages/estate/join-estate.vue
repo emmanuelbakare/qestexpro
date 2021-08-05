@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md row" >
-    <div class="col-sm-8 offset-sm-2 col-md-6 offset-md-3" >
+    <div class="col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-sx-12" >
 
           <!-- <q-select v-model="search" :options="options" label="Search" rounded outlined /> -->
           <!-- <q-banner class="bg-grey-3 q-mb-lg " rounded >
@@ -12,12 +12,13 @@
             round outlined clearable
             :loading="loading"
              @input="searchDBTwo"
-            @clear="clearSearch" >
+            @clear="clearSearch"
+             >
 
 
 
           </q-input>
-          <estate-list :estates="searchedEstates"  @estateJoiner="joinEstate"/>
+          <estate-list :estates="searchedEstates"  @estateJoiner="joinEstate" />
           <!-- <q-dialog v-model="showEstateForm" > -->
               <estate-resident :estateid="estateid"  />
           <!-- </q-dialog> -->
